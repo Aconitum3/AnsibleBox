@@ -11,3 +11,4 @@ git clone https://github.com/aconitum3/AnsibleBox
 cd AnsibleBox/WSL
 ansible-playbook Playbook.yml
 ```
+To reflect the addition of the docker group, you must log in again.
