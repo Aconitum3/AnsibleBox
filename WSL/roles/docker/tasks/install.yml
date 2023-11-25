@@ -1,0 +1,44 @@
+- name: apt update
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: install prerequisite packages
+  become: yes
+  apt:
+    name:
+      - ca-certificates
+      - curl
+    state: present
+
+- name: add Docker GPG key
+  become: yes
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: add Docker repo
+  become: yes
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+    state: present
+
+- name: apt update
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: install docker
+  become: yes
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
+    state: present
+  notify:
+    - add_user_to_docker_group
+    - restart_docker_daemon
+
+- meta: flush_handlers

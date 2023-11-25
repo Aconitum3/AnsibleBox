@@ -1,0 +1,32 @@
+- name: apt update
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: install samba client
+  become: yes
+  apt:
+    name:
+        - cifs-utils
+        - smbclient
+      state: present
+
+- name: check mountpoints exist
+  become: yes
+  file:
+    path: "{{ item.mountpoint }}"
+    state: directory
+    mode: "{{ item.permission }}"
+    owner: root
+    group: root
+  loop: "{{ mounts }}"
+
+  - name: mount
+  become: yes
+  ansible.posix.mount:
+    src: "{{ item.samba }}"
+    path: "{{ item.mountpoint }}"
+    ftype: cifs
+    opts: "{{ item.opts }}"
+    state: mounted
+  loop: "{{ mounts }}"
