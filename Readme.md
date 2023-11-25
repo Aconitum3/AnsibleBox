@@ -7,7 +7,7 @@ WSL contains docker and samba roles. To install docker in your wsl distro, execu
 sudo apt update
 sudo apt install ansible-core
 
-wget
-cd WSL
+git clone https://github.com/aconitum3/AnsibleBox
+cd AnsibleBox/WSL
 ansible-playbook Playbook.yml
 ```
